@@ -1,5 +1,5 @@
 # goflux
-[![codebeat badge](https://codebeat.co/badges/c699bc56-aa5f-4cf5-893f-5cf564391b94)](https://codebeat.co/projects/github-com-nerzal-goflux-master)
+[![codebeat badge](https://codebeat.co/badges/4ba2c5c6-da53-40c9-b1d3-506e2b5d852b)](https://codebeat.co/projects/github-com-nerzal-goflux-master)
 [![Go Report Card](https://goreportcard.com/badge/github.com/Nerzal/goflux)](https://goreportcard.com/report/github.com/Nerzal/goflux)
 [![Go Doc](https://godoc.org/github.com/Nerzal/goflux?status.svg)](https://godoc.org/github.com/Nerzal/goflux)
 [![Build Status](https://github.com/Nerzal/goflux/workflows/Tests/badge.svg)](https://github.com/Nerzal/goflux/actions?query=branch%3Amaster+event%3Apush)
