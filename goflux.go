@@ -1,61 +1,63 @@
-package main
+package goflux
 
 import (
 	"fmt"
 	"io/ioutil"
-	"log"
 	"os"
 	"path/filepath"
 
 	"github.com/Nerzal/goflux/pkg/service"
-	"github.com/urfave/cli"
 	"gopkg.in/yaml.v2"
 )
 
-func main() {
-	app := &cli.App{
-		Name:  "goflux",
-		Usage: "Used to automatically generate flux files",
-		Flags: []cli.Flag{
-			cli.BashCompletionFlag,
-			cli.HelpFlag,
-			cli.VersionFlag,
-			&cli.StringFlag{
-				Required: true,
-				Name:     "component",
-			},
-			&cli.StringFlag{
-				Required: true,
-				Name:     "namespace",
-			},
-		},
-		Action: func(c *cli.Context) error {
-			projectName := c.String("component")
-			namespace := c.String("namespace")
+// Goflux is used to create service, ingress, namespace files etc.
+type Goflux interface {
+	Initialize(component string) error
+	CreateBase(component, namespace string) error
+}
 
-			err := ensureFolders(projectName)
-			if err != nil {
-				return err
-			}
+type goflux struct {
+	service service.Service
+}
 
-			err = createBase(projectName, namespace)
-			if err != nil {
-				return err
-			}
-
-			return nil
-		},
-	}
-
-	err := app.Run(os.Args)
-	if err != nil {
-		log.Fatal(err)
+// New creates a new instance of Goflux
+func New() Goflux {
+	service := service.NewService()
+	return &goflux{
+		service: service,
 	}
 }
 
-func createBase(component, namespace string) error {
-	service := service.NewService()
-	serviceData := service.New(component, namespace)
+func (goflux *goflux) Initialize(projectName string) error {
+	err := goflux.createFolder(projectName, "base")
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
+	err = goflux.createFolder(projectName, "dev")
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
+	err = goflux.createFolder(projectName, "test")
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
+	err = goflux.createFolder(projectName, "prod")
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
+	return nil
+}
+
+func (goflux *goflux) CreateBase(component, namespace string) error {
+	serviceData := goflux.service.New(component, namespace)
 	binaryData, err := yaml.Marshal(serviceData)
 	if err != nil {
 		return err
@@ -69,35 +71,7 @@ func createBase(component, namespace string) error {
 	return nil
 }
 
-func ensureFolders(projectName string) error {
-	err := createFolder(projectName, "base")
-	if err != nil {
-		fmt.Println(err)
-		return err
-	}
-
-	err = createFolder(projectName, "dev")
-	if err != nil {
-		fmt.Println(err)
-		return err
-	}
-
-	err = createFolder(projectName, "test")
-	if err != nil {
-		fmt.Println(err)
-		return err
-	}
-
-	err = createFolder(projectName, "prod")
-	if err != nil {
-		fmt.Println(err)
-		return err
-	}
-
-	return nil
-}
-
-func createFolder(projectName string, folderName string) error {
+func (goflux *goflux) createFolder(projectName string, folderName string) error {
 	newpath := filepath.Join(".", projectName, folderName)
 	return os.MkdirAll(newpath, 0777)
 }
