@@ -19,6 +19,8 @@ new_project
 kycnow-api
 foo
 
+**.test.**.yaml
+
 test
 test/**
 **/goflux

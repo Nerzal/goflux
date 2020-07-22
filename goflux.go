@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/Nerzal/goflux/pkg/kustomize"
 	"github.com/Nerzal/goflux/pkg/service"
 	"gopkg.in/yaml.v2"
 )
@@ -17,14 +18,18 @@ type Goflux interface {
 }
 
 type goflux struct {
-	service service.Service
+	service   service.Service
+	kustomize kustomize.Service
 }
 
 // New creates a new instance of Goflux
 func New() Goflux {
 	service := service.NewService()
+	kustomize := kustomize.NewService()
+
 	return &goflux{
-		service: service,
+		service:   service,
+		kustomize: kustomize,
 	}
 }
 
@@ -63,7 +68,19 @@ func (goflux *goflux) CreateBase(component, namespace string) error {
 		return err
 	}
 
-	err = ioutil.WriteFile(fmt.Sprintf("./%s/base/service.yaml", component), binaryData, 0644)
+	basePath := fmt.Sprintf("./%s/base", component)
+
+	err = ioutil.WriteFile(fmt.Sprintf("%s/service.yaml", basePath), binaryData, 0644)
+	if err != nil {
+		return err
+	}
+
+	err, ressources := goflux.kustomize.FetchRessources(basePath)
+	if err != nil {
+		return err
+	}
+
+	err = goflux.kustomize.CreateBase(basePath, ressources)
 	if err != nil {
 		return err
 	}
