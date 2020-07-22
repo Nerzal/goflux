@@ -23,7 +23,6 @@ func main() {
 				Flags: []cli.Flag{
 					cli.BashCompletionFlag,
 					cli.HelpFlag,
-					cli.VersionFlag,
 					&cli.StringFlag{
 						Required: true,
 						Name:     "component",
@@ -39,7 +38,6 @@ func main() {
 				Flags: []cli.Flag{
 					cli.BashCompletionFlag,
 					cli.HelpFlag,
-					cli.VersionFlag,
 					&cli.StringFlag{
 						Required: true,
 						Name:     "namespace",
@@ -55,7 +53,6 @@ func main() {
 				Flags: []cli.Flag{
 					cli.BashCompletionFlag,
 					cli.HelpFlag,
-					cli.VersionFlag,
 					&cli.StringFlag{
 						Required: true,
 						Name:     "component",
