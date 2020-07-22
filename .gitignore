@@ -18,6 +18,7 @@
 new_project
 kycnow-api
 foo
-test
 
+test
+test/**
 **/goflux
