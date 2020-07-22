@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 
 	"github.com/Nerzal/goflux/pkg/kustomize"
+	"github.com/Nerzal/goflux/pkg/namespace"
 	"github.com/Nerzal/goflux/pkg/service"
 	"gopkg.in/yaml.v2"
 )
@@ -15,21 +16,25 @@ import (
 type Goflux interface {
 	Initialize(component string) error
 	CreateBase(component, namespace string) error
+	CreateNameSpace(component, namespace string, path ...string) error
 }
 
 type goflux struct {
 	service   service.Service
 	kustomize kustomize.Service
+	namespace namespace.Service
 }
 
 // New creates a new instance of Goflux
 func New() Goflux {
 	service := service.NewService()
 	kustomize := kustomize.NewService()
+	namespace := namespace.NewService()
 
 	return &goflux{
 		service:   service,
 		kustomize: kustomize,
+		namespace: namespace,
 	}
 }
 
@@ -86,6 +91,16 @@ func (goflux *goflux) CreateBase(component, namespace string) error {
 	}
 
 	return nil
+}
+
+func (goflux *goflux) CreateNameSpace(component, namespace string, path ...string) error {
+	basePath := fmt.Sprintf("./%s/base", component)
+
+	if len(path) != 0 {
+		basePath = path[0]
+	}
+
+	return goflux.namespace.Create(namespace, basePath)
 }
 
 func (goflux *goflux) createFolder(projectName string, folderName string) error {

@@ -8,9 +8,9 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-func main() {
-	gofluxClient := goflux.New()
+var gofluxClient = goflux.New()
 
+func main() {
 	app := &cli.App{
 		Name:  "goflux",
 		Usage: "Used to automatically generate flux files",
@@ -29,15 +29,23 @@ func main() {
 						Name:     "component",
 					},
 				},
-				Action: func(c *cli.Context) error {
-					projectName := c.String("component")
-					err := gofluxClient.Initialize(projectName)
-					if err != nil {
-						return err
-					}
-
-					return nil
+				Action: Initialize,
+			},
+			{
+				Name:        "namespace",
+				HelpName:    "namespace",
+				Description: "Creates a namespace file",
+				Usage:       "Create a namespace file",
+				Flags: []cli.Flag{
+					cli.BashCompletionFlag,
+					cli.HelpFlag,
+					cli.VersionFlag,
+					&cli.StringFlag{
+						Required: true,
+						Name:     "namespace",
+					},
 				},
+				Action: NameSpace,
 			},
 			{
 				Name:        "backend",
@@ -57,17 +65,7 @@ func main() {
 						Name:     "namespace",
 					},
 				},
-				Action: func(c *cli.Context) error {
-					projectName := c.String("component")
-					namespace := c.String("namespace")
-
-					err := gofluxClient.CreateBase(projectName, namespace)
-					if err != nil {
-						return err
-					}
-
-					return nil
-				},
+				Action: Backend,
 			},
 		},
 	}
@@ -76,4 +74,43 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+func Initialize(c *cli.Context) error {
+	projectName := c.String("component")
+	err := gofluxClient.Initialize(projectName)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func Backend(c *cli.Context) error {
+	projectName := c.String("component")
+	namespace := c.String("namespace")
+
+	err := gofluxClient.CreateNameSpace(projectName, namespace)
+	if err != nil {
+		return err
+	}
+
+	err = gofluxClient.CreateBase(projectName, namespace)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func NameSpace(c *cli.Context) error {
+	projectName := c.String("component")
+	namespace := c.String("namespace")
+
+	err := gofluxClient.CreateNameSpace(projectName, namespace, ".")
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
