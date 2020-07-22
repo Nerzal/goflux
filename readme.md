@@ -2,6 +2,22 @@ The created kubernetes files are currently narrowed down to my personal usecase.
 
 ## Usage Example
 
+```sh
+NAME:
+   goflux - Used to automatically generate flux files
+
+USAGE:
+   goflux [global options] command [command options] [arguments...]
+
+COMMANDS:
+   init     Initialize new project
+   backend  Create files for a backend service
+   help, h  Shows a list of commands or help for one command
+
+GLOBAL OPTIONS:
+   --help, -h  show help (default: false)
+```
+
 To initialize a new project do
 > goflux init --component myService
 
