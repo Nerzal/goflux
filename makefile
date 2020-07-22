@@ -8,7 +8,7 @@ all: build install
 .PHONY: all
 
 build:
-	$(GOBUILD) -o $(BINARY_NAME) ./cmd/cli
+	$(GOBUILD) -o $(BINARY_NAME) ./cmd/goflux
 
 install:
-	$(GOINSTALL) ./cmd/cli
+	$(GOINSTALL) ./cmd/goflux
