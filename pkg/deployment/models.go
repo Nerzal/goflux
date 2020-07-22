@@ -76,8 +76,8 @@ type Capabilities struct {
 // SecurityContext is used as securityContext
 type SecurityContext struct {
 	RunAsNonRoot           bool         `yaml:"runAsNonRoot,omitempty"`
-	RunAsUser              int          `yaml:"runAsUser,omitempty"`
 	ReadOnlyRootFilesystem bool         `yaml:"readOnlyRootFilesystem,omitempty"`
+	RunAsUser              int          `yaml:"runAsUser,omitempty"`
 	Capabilities           Capabilities `yaml:"capabilities,omitempty"`
 }
 
@@ -96,8 +96,8 @@ type ImagePullSecrets struct {
 	Name string `yaml:"name,omitempty"`
 }
 
-// Spec is a spec
-type Spec struct {
+// TemplateSpec is a spec
+type TemplateSpec struct {
 	Containers       []Container        `yaml:"containers,omitempty"`
 	ImagePullSecrets []ImagePullSecrets `yaml:"imagePullSecrets,omitempty"`
 }
@@ -108,8 +108,8 @@ type Template struct {
 	Spec     TemplateSpec `yaml:"spec,omitempty"`
 }
 
-// TemplateSpec is a spec inside a template
-type TemplateSpec struct {
+// Spec is a spec inside a template
+type Spec struct {
 	Selector Selector    `yaml:"selector,omitempty"`
 	Template interface{} `yaml:"template,omitempty"` //Due to declarationCycle
 }

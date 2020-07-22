@@ -1,11 +1,13 @@
 package service
 
+// Service is a service service, lol
 type Service interface {
 	New(name, namespace string) Data
 }
 
 type service struct{}
 
+// NewService creates a new instance of Service
 func NewService() Service {
 	return &service{}
 }

@@ -73,6 +73,7 @@ func main() {
 	}
 }
 
+// Initialize is used as cli command
 func Initialize(c *cli.Context) error {
 	projectName := c.String("component")
 	err := gofluxClient.Initialize(projectName)
@@ -83,6 +84,7 @@ func Initialize(c *cli.Context) error {
 	return nil
 }
 
+// Backend is a cli command
 func Backend(c *cli.Context) error {
 	projectName := c.String("component")
 	namespace := c.String("namespace")
@@ -100,6 +102,7 @@ func Backend(c *cli.Context) error {
 	return nil
 }
 
+// NameSpace is a cli command
 func NameSpace(c *cli.Context) error {
 	projectName := c.String("component")
 	namespace := c.String("namespace")
