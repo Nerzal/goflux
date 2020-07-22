@@ -19,7 +19,7 @@ func main() {
 				Name:        "init",
 				HelpName:    "Initialize",
 				Description: "Initializes a new folder structure to work in",
-				Usage:       "Do goflux init to initialize",
+				Usage:       "Initialize new project",
 				Flags: []cli.Flag{
 					cli.BashCompletionFlag,
 					cli.HelpFlag,
@@ -43,7 +43,7 @@ func main() {
 				Name:        "backend",
 				HelpName:    "backend",
 				Description: "Creates folders and files for a backend service",
-				Usage:       "Do goflux backend to create files for a backend service",
+				Usage:       "Create files for a backend service",
 				Flags: []cli.Flag{
 					cli.BashCompletionFlag,
 					cli.HelpFlag,
