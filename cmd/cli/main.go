@@ -28,6 +28,30 @@ func main() {
 						Required: true,
 						Name:     "component",
 					},
+				},
+				Action: func(c *cli.Context) error {
+					projectName := c.String("component")
+					err := gofluxClient.Initialize(projectName)
+					if err != nil {
+						return err
+					}
+
+					return nil
+				},
+			},
+			{
+				Name:        "backend",
+				HelpName:    "backend",
+				Description: "Creates folders and files for a backend service",
+				Usage:       "Do goflux backend to create files for a backend service",
+				Flags: []cli.Flag{
+					cli.BashCompletionFlag,
+					cli.HelpFlag,
+					cli.VersionFlag,
+					&cli.StringFlag{
+						Required: true,
+						Name:     "component",
+					},
 					&cli.StringFlag{
 						Required: true,
 						Name:     "namespace",
@@ -37,12 +61,7 @@ func main() {
 					projectName := c.String("component")
 					namespace := c.String("namespace")
 
-					err := gofluxClient.Initialize(projectName)
-					if err != nil {
-						return err
-					}
-
-					err = gofluxClient.CreateBase(projectName, namespace)
+					err := gofluxClient.CreateBase(projectName, namespace)
 					if err != nil {
 						return err
 					}
