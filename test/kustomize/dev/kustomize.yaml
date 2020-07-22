@@ -1,0 +1,5 @@
+namespace: testNameSpace
+resources:
+- namespace.yaml
+- namespace2.yaml
+- _secrets/mysecret.yaml

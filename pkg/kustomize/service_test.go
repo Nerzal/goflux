@@ -36,7 +36,7 @@ func TestKustomize_CreateBase(t *testing.T) {
 	})
 
 	t.Run("create base", func(t *testing.T) {
-		err = service.Create("../../test/kustomize/base", ressources)
+		err = service.Create("../../test/kustomize/base", "", ressources, nil, nil)
 		if err != nil {
 			t.Error(err)
 		}
@@ -61,7 +61,7 @@ func TestKustomize_CreateDevWithSecrets(t *testing.T) {
 	})
 
 	t.Run("create dev with secrets", func(t *testing.T) {
-		err = service.Create("../../test/kustomize/dev", ressources)
+		err = service.Create("../../test/kustomize/dev", "testNameSpace", ressources, nil, nil)
 		if err != nil {
 			t.Error(err)
 		}
