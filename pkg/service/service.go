@@ -24,7 +24,7 @@ func (service *service) New(name, namespace string) Data {
 		},
 		Spec: Spec{
 			Ports: []Port{
-				Port{
+				{
 					Port:       80,
 					TargetPort: 8080,
 					Protocol:   "TCP",

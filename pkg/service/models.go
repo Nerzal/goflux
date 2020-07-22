@@ -8,7 +8,7 @@ type Data struct {
 }
 
 type Spec struct {
-	Ports    []Port  `yaml:"ports"`
+	Ports    []Port   `yaml:"ports"`
 	Selector Selector `yaml:"selector"`
 }
 
