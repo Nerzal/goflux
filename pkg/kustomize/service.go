@@ -1,6 +1,7 @@
 package kustomize
 
 import (
+	"fmt"
 	"io/ioutil"
 
 	"github.com/Nerzal/goflux/pkg/files"
@@ -9,7 +10,7 @@ import (
 
 type Service interface {
 	FetchRessources(path string) (error, []string)
-	CreateBase(path string, ressources []string) error
+	Create(path string, ressources []string) error
 }
 
 type service struct{}
@@ -21,13 +22,20 @@ func NewService() Service {
 func (service *service) FetchRessources(path string) (error, []string) {
 	fileInfos, err := ioutil.ReadDir(path)
 	if err != nil {
-		return errors.Wrap(err, "could not fetch resourrces"), nil
+		return errors.Wrap(err, "could not fetch resources"), nil
 	}
 
 	var result []string
+	var secrets []string
 
 	for _, fileInfo := range fileInfos {
-		if fileInfo.IsDir() {
+		if fileInfo.IsDir() && fileInfo.Name() == "_secrets" {
+			err, fetchResult := service.FetchRessources(path + "/" + fileInfo.Name())
+			if err != nil {
+				return errors.Wrap(err, "could not fetch secret ressources"), nil
+			}
+
+			secrets = fetchResult
 			continue
 		}
 
@@ -38,10 +46,14 @@ func (service *service) FetchRessources(path string) (error, []string) {
 		result = append(result, fileInfo.Name())
 	}
 
+	for _, secret := range secrets {
+		result = append(result, fmt.Sprintf("_secrets/%s", secret))
+	}
+
 	return nil, result
 }
 
-func (service *service) CreateBase(path string, ressources []string) error {
+func (service *service) Create(path string, ressources []string) error {
 	data := Data{
 		Resources: ressources,
 	}

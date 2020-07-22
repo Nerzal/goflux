@@ -85,7 +85,7 @@ func (goflux *goflux) CreateBase(component, namespace string) error {
 		return err
 	}
 
-	err = goflux.kustomize.CreateBase(basePath, ressources)
+	err = goflux.kustomize.Create(basePath, ressources)
 	if err != nil {
 		return err
 	}

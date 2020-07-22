@@ -36,10 +36,34 @@ func TestKustomize_CreateBase(t *testing.T) {
 	})
 
 	t.Run("create base", func(t *testing.T) {
-		err = service.CreateBase("../../test/kustomize/base", ressources)
+		err = service.Create("../../test/kustomize/base", ressources)
 		if err != nil {
 			t.Error(err)
 		}
 	})
+}
 
+func TestKustomize_CreateDevWithSecrets(t *testing.T) {
+	service := kustomize.NewService()
+
+	var ressources []string
+	var err error
+
+	t.Run("fetch ressources with secrets", func(t *testing.T) {
+		err, ressources = service.FetchRessources("../../test/kustomize/dev")
+		if err != nil {
+			t.Error(err)
+		}
+
+		if len(ressources) != 3 {
+			t.Errorf("Expected 3 files, found: %v", len(ressources))
+		}
+	})
+
+	t.Run("create dev with secrets", func(t *testing.T) {
+		err = service.Create("../../test/kustomize/dev", ressources)
+		if err != nil {
+			t.Error(err)
+		}
+	})
 }
