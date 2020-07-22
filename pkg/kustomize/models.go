@@ -1,5 +1,6 @@
 package kustomize
 
+// Data is the kustomize data structure
 type Data struct {
 	APIVersion string   `yaml:"apiVersion,omitempty"`
 	Kind       string   `yaml:"kind,omitempty"`

@@ -8,7 +8,7 @@ import (
 
 func TestKustomize_FetchRessources(t *testing.T) {
 	service := kustomize.NewService()
-	err, files := service.FetchRessources("../../test/kustomize/base")
+	files, err := service.FetchRessources("../../test/kustomize/base")
 	if err != nil {
 		t.Error(err)
 	}
@@ -25,7 +25,7 @@ func TestKustomize_CreateBase(t *testing.T) {
 	var err error
 
 	t.Run("fetch ressources", func(t *testing.T) {
-		err, ressources = service.FetchRessources("../../test/kustomize/base")
+		ressources, err = service.FetchRessources("../../test/kustomize/base")
 		if err != nil {
 			t.Error(err)
 		}
@@ -50,7 +50,7 @@ func TestKustomize_CreateDevWithSecrets(t *testing.T) {
 	var err error
 
 	t.Run("fetch ressources with secrets", func(t *testing.T) {
-		err, ressources = service.FetchRessources("../../test/kustomize/dev")
+		ressources, err = service.FetchRessources("../../test/kustomize/dev")
 		if err != nil {
 			t.Error(err)
 		}

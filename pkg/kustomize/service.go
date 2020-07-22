@@ -9,22 +9,24 @@ import (
 	"github.com/pkg/errors"
 )
 
+// Service is used to create kustomization files
 type Service interface {
-	FetchRessources(path string) (error, []string)
-	FetchPatches(path string) (error, []string)
+	FetchRessources(path string) ([]string, error)
+	FetchPatches(path string) ([]string, error)
 	Create(path, namespace string, ressources, patches, bases []string) error
 }
 
 type service struct{}
 
+// NewService creates a new instance of Service
 func NewService() Service {
 	return &service{}
 }
 
-func (service *service) FetchRessources(path string) (error, []string) {
+func (service *service) FetchRessources(path string) ([]string, error) {
 	fileInfos, err := ioutil.ReadDir(path)
 	if err != nil {
-		return errors.Wrap(err, "could not fetch resources"), nil
+		return nil, errors.Wrap(err, "could not fetch resources")
 	}
 
 	var result []string
@@ -37,9 +39,9 @@ func (service *service) FetchRessources(path string) (error, []string) {
 		}
 
 		if fileInfo.IsDir() && fileName == "_secrets" {
-			err, fetchResult := service.FetchRessources(path + "/" + fileName)
+			fetchResult, err := service.FetchRessources(path + "/" + fileName)
 			if err != nil {
-				return errors.Wrap(err, "could not fetch secret ressources"), nil
+				return nil, errors.Wrap(err, "could not fetch secret ressources")
 			}
 
 			secrets = fetchResult
@@ -57,13 +59,13 @@ func (service *service) FetchRessources(path string) (error, []string) {
 		result = append(result, fmt.Sprintf("_secrets/%s", secret))
 	}
 
-	return nil, result
+	return result, nil
 }
 
-func (service *service) FetchPatches(path string) (error, []string) {
+func (service *service) FetchPatches(path string) ([]string, error) {
 	fileInfos, err := ioutil.ReadDir(path)
 	if err != nil {
-		return errors.Wrap(err, "could not fetch patches"), nil
+		return nil, errors.Wrap(err, "could not fetch patches")
 	}
 
 	var result []string
@@ -77,7 +79,7 @@ func (service *service) FetchPatches(path string) (error, []string) {
 		result = append(result, fileName)
 	}
 
-	return nil, result
+	return result, nil
 }
 
 func (service *service) Create(path, namespace string, ressources, patches, bases []string) error {

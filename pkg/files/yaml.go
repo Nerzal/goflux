@@ -6,6 +6,7 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
+// WriteFile is used to write a yaml file
 func WriteFile(data interface{}, path string) error {
 	binaryData, err := yaml.Marshal(data)
 	if err != nil {
