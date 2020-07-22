@@ -1,6 +1,7 @@
 run:
   skip-dirs:
     - (^|/)testdata($|/)
+    - (^|/)test($|/)
   skip-dirs-use-default: false
 
 linters:
