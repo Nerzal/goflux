@@ -13,8 +13,8 @@ func TestKustomize_FetchRessources(t *testing.T) {
 		t.Error(err)
 	}
 
-	if len(files) != 2 {
-		t.Errorf("Expected 2 files, found: %v", len(files))
+	if len(files) != 3 {
+		t.Errorf("Expected 3 files, found: %v", len(files))
 	}
 }
 
@@ -30,8 +30,8 @@ func TestKustomize_CreateBase(t *testing.T) {
 			t.Error(err)
 		}
 
-		if len(ressources) != 2 {
-			t.Errorf("Expected 2 files, found: %v", len(ressources))
+		if len(ressources) != 3 {
+			t.Errorf("Expected 3 files, found: %v", len(ressources))
 		}
 	})
 
@@ -55,8 +55,8 @@ func TestKustomize_CreateDevWithSecrets(t *testing.T) {
 			t.Error(err)
 		}
 
-		if len(ressources) != 3 {
-			t.Errorf("Expected 3 files, found: %v", len(ressources))
+		if len(ressources) != 4 {
+			t.Errorf("Expected 4 files, found: %v", len(ressources))
 		}
 	})
 
