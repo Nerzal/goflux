@@ -1,8 +1,14 @@
 package service
 
+import (
+	"github.com/Nerzal/goflux/pkg/files"
+	"github.com/pkg/errors"
+)
+
 // Service is a service service, lol
 type Service interface {
 	New(name, namespace string) Data
+	Create(name, namespace, path string) error
 }
 
 type service struct{}
@@ -40,4 +46,14 @@ func (service *service) New(name, namespace string) Data {
 	}
 
 	return data
+}
+
+func (service *service) Create(name, namespace, path string) error {
+	data := service.New(name, namespace)
+	err := files.WriteFile(data, path+"/service.yaml")
+	if err != nil {
+		return errors.Wrap(err, "could not create service file")
+	}
+
+	return nil
 }

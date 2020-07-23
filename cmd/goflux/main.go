@@ -46,6 +46,25 @@ func main() {
 				Action: NameSpace,
 			},
 			{
+				Name:        "service",
+				HelpName:    "service",
+				Description: "Creates a service file",
+				Usage:       "Create a service file",
+				Flags: []cli.Flag{
+					cli.BashCompletionFlag,
+					cli.HelpFlag,
+					&cli.StringFlag{
+						Required: true,
+						Name:     "namespace",
+					},
+					&cli.StringFlag{
+						Required: true,
+						Name:     "component",
+					},
+				},
+				Action: Service,
+			},
+			{
 				Name:        "backend",
 				HelpName:    "backend",
 				Description: "Creates folders and files for a backend service",
@@ -108,6 +127,19 @@ func NameSpace(c *cli.Context) error {
 	namespace := c.String("namespace")
 
 	err := gofluxClient.CreateNameSpace(projectName, namespace, ".")
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// Service is a cli command
+func Service(c *cli.Context) error {
+	projectName := c.String("component")
+	namespace := c.String("namespace")
+
+	err := gofluxClient.CreateService(projectName, namespace, ".")
 	if err != nil {
 		return err
 	}

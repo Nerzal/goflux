@@ -17,6 +17,7 @@ type Goflux interface {
 	Initialize(component string) error
 	CreateBase(component, namespace string) error
 	CreateNameSpace(component, namespace string, path ...string) error
+	CreateService(component, namespace string, path ...string) error
 }
 
 type goflux struct {
@@ -75,7 +76,7 @@ func (goflux *goflux) CreateBase(component, namespace string) error {
 
 	basePath := fmt.Sprintf("./%s/base", component)
 
-	err = ioutil.WriteFile(fmt.Sprintf("%s/service.yaml", basePath), binaryData, 0644)
+	err = ioutil.WriteFile(fmt.Sprintf("%s/service.yaml", basePath), binaryData, 0600)
 	if err != nil {
 		return err
 	}
@@ -103,7 +104,17 @@ func (goflux *goflux) CreateNameSpace(component, namespace string, path ...strin
 	return goflux.namespace.Create(namespace, basePath)
 }
 
+func (goflux *goflux) CreateService(component, namespace string, path ...string) error {
+	basePath := fmt.Sprintf("./%s/base", component)
+
+	if len(path) != 0 {
+		basePath = path[0]
+	}
+
+	return goflux.namespace.Create(namespace, basePath)
+}
+
 func (goflux *goflux) createFolder(projectName string, folderName string) error {
 	newpath := filepath.Join(".", projectName, folderName)
-	return os.MkdirAll(newpath, 0777)
+	return os.MkdirAll(newpath, 0750)
 }
