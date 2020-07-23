@@ -110,7 +110,7 @@ func main() {
 			{
 				Name:        "kustomize",
 				HelpName:    "kustomize",
-				Description: "Creates a kustomization file",
+				Description: "Creates a kustomization file. Automagically finds ressources, and patches and also secrets in a _secret folder",
 				Usage:       "Create a kustomization file",
 				Flags: []cli.Flag{
 					cli.BashCompletionFlag,
