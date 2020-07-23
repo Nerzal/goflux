@@ -21,6 +21,7 @@ func main() {
 				HelpName:    "Initialize",
 				Description: "Initializes a new folder structure to work in",
 				Usage:       "Initialize new project",
+				Aliases:     []string{"i"},
 				Flags: []cli.Flag{
 					cli.BashCompletionFlag,
 					cli.HelpFlag,
@@ -36,6 +37,7 @@ func main() {
 				HelpName:    "namespace",
 				Description: "Creates a namespace file",
 				Usage:       "Create a namespace file",
+				Aliases:     []string{"n"},
 				Flags: []cli.Flag{
 					cli.BashCompletionFlag,
 					cli.HelpFlag,
@@ -51,6 +53,7 @@ func main() {
 				HelpName:    "service",
 				Description: "Creates a service file",
 				Usage:       "Create a service file",
+				Aliases:     []string{"s"},
 				Flags: []cli.Flag{
 					cli.BashCompletionFlag,
 					cli.HelpFlag,
@@ -70,6 +73,7 @@ func main() {
 				HelpName:    "configmap",
 				Description: "Creates a configmap file",
 				Usage:       "Create a configmap file",
+				Aliases:     []string{"c"},
 				Flags: []cli.Flag{
 					cli.BashCompletionFlag,
 					cli.HelpFlag,
@@ -89,6 +93,7 @@ func main() {
 				HelpName:    "deployment",
 				Description: "Creates a deployment file",
 				Usage:       "Create a deployment file",
+				Aliases:     []string{"d"},
 				Flags: []cli.Flag{
 					cli.BashCompletionFlag,
 					cli.HelpFlag,
@@ -112,6 +117,7 @@ func main() {
 				HelpName:    "kustomize",
 				Description: "Creates a kustomization file. Automagically finds ressources, and patches and also secrets in a _secret folder",
 				Usage:       "Create a kustomization file",
+				Aliases:     []string{"k"},
 				Flags: []cli.Flag{
 					cli.BashCompletionFlag,
 					cli.HelpFlag,
@@ -131,6 +137,7 @@ func main() {
 				HelpName:    "backend",
 				Description: "Creates folders and files for a backend service",
 				Usage:       "Create files for a backend service",
+				Aliases:     []string{"b"},
 				Flags: []cli.Flag{
 					cli.BashCompletionFlag,
 					cli.HelpFlag,
