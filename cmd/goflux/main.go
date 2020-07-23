@@ -196,7 +196,7 @@ func main() {
 					},
 					&cli.StringFlag{
 						Required: true,
-						Aliases:  []string{"h"},
+						Aliases:  []string{"ho"},
 						Name:     "host",
 					},
 					&cli.StringFlag{
