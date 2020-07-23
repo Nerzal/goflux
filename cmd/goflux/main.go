@@ -144,6 +144,38 @@ func main() {
 				Action: Kustomize,
 			},
 			{
+				Name:        "hpa",
+				HelpName:    "hpa",
+				Description: "Creates a hpa file",
+				Usage:       "Create a hpa file",
+				Aliases:     []string{"h"},
+				Flags: []cli.Flag{
+					cli.BashCompletionFlag,
+					cli.HelpFlag,
+					&cli.StringFlag{
+						Required: true,
+						Aliases:  []string{"n"},
+						Name:     "namespace",
+					},
+					&cli.StringFlag{
+						Required: true,
+						Aliases:  []string{"c"},
+						Name:     "component",
+					},
+					&cli.IntFlag{
+						Required: false,
+						Aliases:  []string{"min"},
+						Name:     "min-replicas",
+					},
+					&cli.IntFlag{
+						Required: false,
+						Aliases:  []string{"max"},
+						Name:     "max-replicas",
+					},
+				},
+				Action: HPA,
+			},
+			{
 				Name:        "backend",
 				HelpName:    "backend",
 				Description: "Creates folders and files for a backend service",
@@ -271,6 +303,21 @@ func Kustomize(c *cli.Context) error {
 	}
 
 	err := gofluxClient.CreateKustomization(namespace, path)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// HPA is a cli command
+func HPA(c *cli.Context) error {
+	projectName := c.String("component")
+	namespace := c.String("namespace")
+	minReplicas := c.Int("minReplicas")
+	maxReplicas := c.Int("maxReplicas")
+
+	err := gofluxClient.CreateHpa(projectName, namespace, minReplicas, maxReplicas, ".")
 	if err != nil {
 		return err
 	}
