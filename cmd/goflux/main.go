@@ -176,6 +176,53 @@ func main() {
 				Action: HPA,
 			},
 			{
+				Name:        "ingress",
+				HelpName:    "ingress",
+				Description: "Creates a ingress file",
+				Usage:       "Create a ingress file",
+				Aliases:     []string{"i"},
+				Flags: []cli.Flag{
+					cli.BashCompletionFlag,
+					cli.HelpFlag,
+					&cli.StringFlag{
+						Required: true,
+						Aliases:  []string{"n"},
+						Name:     "namespace",
+					},
+					&cli.StringFlag{
+						Required: true,
+						Aliases:  []string{"c"},
+						Name:     "component",
+					},
+					&cli.StringFlag{
+						Required: true,
+						Aliases:  []string{"h"},
+						Name:     "host",
+					},
+					&cli.StringFlag{
+						Required: true,
+						Aliases:  []string{"tlsh"},
+						Name:     "tls-host",
+					},
+					&cli.StringFlag{
+						Required: true,
+						Aliases:  []string{"s"},
+						Name:     "secret-name",
+					},
+					&cli.StringFlag{
+						Required: true,
+						Aliases:  []string{"e"},
+						Name:     "endpoint",
+					},
+					&cli.BoolFlag{
+						Required: true,
+						Aliases:  []string{"acme"},
+						Name:     "tls-acme",
+					},
+				},
+				Action: Ingress,
+			},
+			{
 				Name:        "backend",
 				HelpName:    "backend",
 				Description: "Creates folders and files for a backend service",
@@ -318,6 +365,24 @@ func HPA(c *cli.Context) error {
 	maxReplicas := c.Int("maxReplicas")
 
 	err := gofluxClient.CreateHpa(projectName, namespace, minReplicas, maxReplicas, ".")
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// Ingress is a cli command
+func Ingress(c *cli.Context) error {
+	projectName := c.String("component")
+	namespace := c.String("namespace")
+	host := c.String("host")
+	tlsHost := c.String("tls-host")
+	secretName := c.String("secret-name")
+	endpoint := c.String("endpoint")
+	tlsAcme := c.Bool("tls-acme")
+
+	err := gofluxClient.CreateIngress(projectName, namespace, host, tlsHost, secretName, endpoint, tlsAcme, ".")
 	if err != nil {
 		return err
 	}

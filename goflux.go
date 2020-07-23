@@ -9,6 +9,7 @@ import (
 	"github.com/Nerzal/goflux/pkg/configmap"
 	"github.com/Nerzal/goflux/pkg/deployment"
 	"github.com/Nerzal/goflux/pkg/hpa"
+	"github.com/Nerzal/goflux/pkg/ingress"
 	"github.com/Nerzal/goflux/pkg/kustomize"
 	"github.com/Nerzal/goflux/pkg/namespace"
 	"github.com/Nerzal/goflux/pkg/service"
@@ -26,6 +27,7 @@ type Goflux interface {
 	CreateService(component, namespace string, path ...string) error
 	CreateKustomization(namespace string, path ...string) error
 	CreateHpa(component, namespace string, minReplicas, maxReplicas int, path ...string) error
+	CreateIngress(component, namespace, host, tlsHost, secretName, endpoint string, tlsAcme bool, path ...string) error
 }
 
 type goflux struct {
@@ -35,6 +37,7 @@ type goflux struct {
 	deployment deployment.Service
 	configmap  configmap.Service
 	hpa        hpa.Service
+	ingress    ingress.Service
 }
 
 // New creates a new instance of Goflux
@@ -45,6 +48,7 @@ func New() Goflux {
 	deployment := deployment.NewService()
 	configmap := configmap.NewService()
 	hpa := hpa.NewService()
+	ingress := ingress.NewService()
 
 	return &goflux{
 		service:    service,
@@ -53,6 +57,7 @@ func New() Goflux {
 		deployment: deployment,
 		configmap:  configmap,
 		hpa:        hpa,
+		ingress:    ingress,
 	}
 }
 
@@ -179,6 +184,16 @@ func (goflux *goflux) CreateHpa(component, namespace string, minReplicas, maxRep
 	}
 
 	return goflux.hpa.Create(component, namespace, minReplicas, maxReplicas, basePath)
+}
+
+func (goflux *goflux) CreateIngress(component, namespace, host, tlsHost, secretName, endpoint string, tlsAcme bool, path ...string) error {
+	basePath := "."
+
+	if len(path) != 0 {
+		basePath = path[0]
+	}
+
+	return goflux.ingress.Create(component, namespace, host, tlsHost, secretName, endpoint, tlsAcme, basePath)
 }
 
 func (goflux *goflux) createFolder(projectName string, folderName string) error {
