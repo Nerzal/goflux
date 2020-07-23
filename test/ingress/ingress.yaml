@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: kycnow-api
+  namespace: clarilab
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    traefik.ingress.kubernetes.io/redirect-entry-point: https
+    traefik.ingress.kubernetes.io/redirect-permanent: "true"
+    kubernetes.io/tls-acme: "true"
+spec:
+  rules:
+  - host: app.foo.kycnow.de
+    http:
+      paths:
+      - path: /api
+        backend:
+          serviceName: kycnow-api
+          servicePort: 80
+  tls:
+  - hosts:
+    - '*.foo.kycnow.de'
+    secretName: my-cert-de-crt
