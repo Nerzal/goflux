@@ -60,3 +60,6 @@ To create all files needed for a backend deployment do
 
 **Create a Namespace File**
 > goflux namespace --namespace myNamespace
+
+**Create a Deployment File**
+> goflux deployment --component myService --namespace myNamespace --image-secret myImagePullSecret
