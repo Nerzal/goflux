@@ -14,7 +14,7 @@ var gofluxClient = goflux.New()
 func main() {
 	app := &cli.App{
 		Name:  "goflux",
-		Usage: "Used to automatically generate flux files",
+		Usage: "Used to automatically generate kubernetes files",
 		Commands: []*cli.Command{
 			{
 				Name:        "init",
