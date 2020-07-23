@@ -9,7 +9,7 @@
 
 
 ## Note
-Nothing is final write now and the API aswell as the models might change until V1.0 release
+Nothing is final right now and the API aswell as the models might change until V1.0 release
 
 The created kubernetes files are currently narrowed down to my personal usecase. I'm very open for Changerequests to make this cli useful for a broader audience. 
 
