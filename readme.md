@@ -40,6 +40,7 @@ COMMANDS:
    deployment, d  Create a deployment file
    kustomize, k   Create a kustomization file
    hpa, h         Create a hpa file
+   ingress, ig    Create a ingress file
    backend, b     Create files for a backend service
    help, h        Shows a list of commands or help for one command
 

@@ -180,7 +180,7 @@ func main() {
 				HelpName:    "ingress",
 				Description: "Creates a ingress file",
 				Usage:       "Create a ingress file",
-				Aliases:     []string{"i"},
+				Aliases:     []string{"ig"},
 				Flags: []cli.Flag{
 					cli.BashCompletionFlag,
 					cli.HelpFlag,
