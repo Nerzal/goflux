@@ -82,7 +82,7 @@ func (service *service) Create(component, namespace, imagePullSecret, path strin
 		},
 	}
 
-	err := files.WriteFile(data, path)
+	err := files.WriteFile(data, path+"/deployment.yaml")
 	if err != nil {
 		return errors.Wrap(err, "could not create deployment file")
 	}
