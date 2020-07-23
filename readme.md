@@ -19,6 +19,10 @@ Until we implemented AutoReleases for all platforms using github actions, you'll
 ### Using go get
 > go get -u -v github.com/Nerzal/goflux/cmd/goflux
 
+### After cloning locally
+cd into the project folder and do
+> make 
+
 ## Usage Example
 
 ```sh
