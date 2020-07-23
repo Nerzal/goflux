@@ -1,0 +1,24 @@
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: kycnow-api
+  namespace: clarilab
+  annotations:
+    metric-config.object.request-rate.prometheus/query: sum(irate(request_total{namespace="clarilab", deployment="kycnow-api", direction="inbound"}[2m]))
+    metric-config.object.request-rate.prometheus/per-replica: "true"
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: kycnow-api
+  minReplicas: 4
+  maxReplicas: 8
+  metrics:
+  - type: Object
+    object:
+      metricName: request-rate
+      target:
+        apiVersion: v1
+        kind: Pod
+        name: dummy-pod
+      targetValue: 5
