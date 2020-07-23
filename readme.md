@@ -13,6 +13,12 @@ Nothing is final right now and the API aswell as the models might change until V
 
 The created kubernetes files are currently narrowed down to my personal usecase. I'm very open for Changerequests to make this cli useful for a broader audience. 
 
+## Installation
+Until we implemented AutoReleases for all platforms using github actions, you'll need to have go installed.
+
+### Using go get
+> go get -u -v github.com/Nerzal/goflux/cmd/goflux
+
 ## Usage Example
 
 ```sh
