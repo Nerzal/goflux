@@ -48,7 +48,7 @@ func (service *service) FetchRessources(path string) ([]string, error) {
 			continue
 		}
 
-		if fileName == "kustomize.yaml" {
+		if fileName == "kustomization.yaml" {
 			continue
 		}
 
@@ -90,7 +90,7 @@ func (service *service) Create(path, namespace string, ressources, patches, base
 		Patches:   patches,
 	}
 
-	err := files.WriteFile(data, path+"/kustomize.yaml")
+	err := files.WriteFile(data, path+"/kustomization.yaml")
 	if err != nil {
 		return errors.Wrap(err, "could not create base kustomize")
 	}
