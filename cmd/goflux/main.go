@@ -27,6 +27,7 @@ func main() {
 					cli.HelpFlag,
 					&cli.StringFlag{
 						Required: true,
+						Aliases:  []string{"c"},
 						Name:     "component",
 					},
 				},
@@ -43,6 +44,7 @@ func main() {
 					cli.HelpFlag,
 					&cli.StringFlag{
 						Required: true,
+						Aliases:  []string{"n"},
 						Name:     "namespace",
 					},
 				},
@@ -59,10 +61,12 @@ func main() {
 					cli.HelpFlag,
 					&cli.StringFlag{
 						Required: true,
+						Aliases:  []string{"n"},
 						Name:     "namespace",
 					},
 					&cli.StringFlag{
 						Required: true,
+						Aliases:  []string{"c"},
 						Name:     "component",
 					},
 				},
@@ -79,10 +83,12 @@ func main() {
 					cli.HelpFlag,
 					&cli.StringFlag{
 						Required: true,
+						Aliases:  []string{"n"},
 						Name:     "namespace",
 					},
 					&cli.StringFlag{
 						Required: true,
+						Aliases:  []string{"c"},
 						Name:     "component",
 					},
 				},
@@ -99,14 +105,17 @@ func main() {
 					cli.HelpFlag,
 					&cli.StringFlag{
 						Required: true,
+						Aliases:  []string{"n"},
 						Name:     "namespace",
 					},
 					&cli.StringFlag{
 						Required: true,
+						Aliases:  []string{"c"},
 						Name:     "component",
 					},
 					&cli.StringFlag{
 						Required: true,
+						Aliases:  []string{"i"},
 						Name:     "image-secret",
 					},
 				},
@@ -123,10 +132,12 @@ func main() {
 					cli.HelpFlag,
 					&cli.StringFlag{
 						Required: true,
+						Aliases:  []string{"n"},
 						Name:     "namespace",
 					},
 					&cli.StringFlag{
 						Required: false,
+						Aliases:  []string{"p"},
 						Name:     "path",
 					},
 				},
@@ -143,10 +154,12 @@ func main() {
 					cli.HelpFlag,
 					&cli.StringFlag{
 						Required: true,
+						Aliases:  []string{"c"},
 						Name:     "component",
 					},
 					&cli.StringFlag{
 						Required: true,
+						Aliases:  []string{"n"},
 						Name:     "namespace",
 					},
 				},
