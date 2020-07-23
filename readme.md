@@ -27,7 +27,7 @@ cd into the project folder and do
 
 ```sh
 NAME:
-   goflux - Used to automatically generate flux files
+   goflux - Used to automatically generate kubernetes files
 
 USAGE:
    goflux [global options] command [command options] [arguments...]
