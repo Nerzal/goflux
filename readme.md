@@ -38,5 +38,14 @@ To initialize a new project do
 
 This will generate a basic folder structure.
 
-To create all files needed for a backend deployment do
+To create all files needed for a backend deployment do 
 > goflux backend --component myService --namespace myNamespace
+
+### The following commands work without goflux init
+
+**Create a Service File**
+> goflux service --component myService --namespace myNamespace
+
+
+**Create a Namespace File**
+> goflux namespace --namespace myNamespace
