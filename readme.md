@@ -33,11 +33,12 @@ USAGE:
    goflux [global options] command [command options] [arguments...]
 
 COMMANDS:
-   init       Initialize new project
-   namespace  Create a namespace file
-   service    Create a service file
-   backend    Create files for a backend service
-   help, h    Shows a list of commands or help for one command
+   init        Initialize new project
+   namespace   Create a namespace file
+   service     Create a service file
+   deployment  Create a deployment file
+   backend     Create files for a backend service
+   help, h     Shows a list of commands or help for one command
 
 GLOBAL OPTIONS:
    --help, -h  show help (default: false)

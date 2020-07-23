@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/Nerzal/goflux/pkg/deployment"
 	"github.com/Nerzal/goflux/pkg/kustomize"
 	"github.com/Nerzal/goflux/pkg/namespace"
 	"github.com/Nerzal/goflux/pkg/service"
@@ -16,14 +17,17 @@ import (
 type Goflux interface {
 	Initialize(component string) error
 	CreateBase(component, namespace string) error
+
+	CreateDeployment(component, namespace, imagePullSecret string, path ...string) error
 	CreateNameSpace(component, namespace string, path ...string) error
 	CreateService(component, namespace string, path ...string) error
 }
 
 type goflux struct {
-	service   service.Service
-	kustomize kustomize.Service
-	namespace namespace.Service
+	service    service.Service
+	kustomize  kustomize.Service
+	namespace  namespace.Service
+	deployment deployment.Service
 }
 
 // New creates a new instance of Goflux
@@ -31,11 +35,13 @@ func New() Goflux {
 	service := service.NewService()
 	kustomize := kustomize.NewService()
 	namespace := namespace.NewService()
+	deployment := deployment.NewService()
 
 	return &goflux{
-		service:   service,
-		kustomize: kustomize,
-		namespace: namespace,
+		service:    service,
+		kustomize:  kustomize,
+		namespace:  namespace,
+		deployment: deployment,
 	}
 }
 
@@ -112,6 +118,16 @@ func (goflux *goflux) CreateService(component, namespace string, path ...string)
 	}
 
 	return goflux.namespace.Create(namespace, basePath)
+}
+
+func (goflux *goflux) CreateDeployment(component, namespace, imagePullSecret string, path ...string) error {
+	basePath := fmt.Sprintf("./%s/base", component)
+
+	if len(path) != 0 {
+		basePath = path[0]
+	}
+
+	return goflux.deployment.Create(component, namespace, imagePullSecret, basePath)
 }
 
 func (goflux *goflux) createFolder(projectName string, folderName string) error {

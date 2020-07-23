@@ -65,6 +65,29 @@ func main() {
 				Action: Service,
 			},
 			{
+				Name:        "deployment",
+				HelpName:    "deployment",
+				Description: "Creates a deployment file",
+				Usage:       "Create a deployment file",
+				Flags: []cli.Flag{
+					cli.BashCompletionFlag,
+					cli.HelpFlag,
+					&cli.StringFlag{
+						Required: true,
+						Name:     "namespace",
+					},
+					&cli.StringFlag{
+						Required: true,
+						Name:     "component",
+					},
+					&cli.StringFlag{
+						Required: true,
+						Name:     "image-secret",
+					},
+				},
+				Action: Deployment,
+			},
+			{
 				Name:        "backend",
 				HelpName:    "backend",
 				Description: "Creates folders and files for a backend service",
@@ -140,6 +163,20 @@ func Service(c *cli.Context) error {
 	namespace := c.String("namespace")
 
 	err := gofluxClient.CreateService(projectName, namespace, ".")
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// Deployment is a cli command
+func Deployment(c *cli.Context) error {
+	projectName := c.String("component")
+	namespace := c.String("namespace")
+	secret := c.String("image-secret")
+
+	err := gofluxClient.CreateDeployment(projectName, namespace, secret, ".")
 	if err != nil {
 		return err
 	}
