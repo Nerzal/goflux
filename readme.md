@@ -38,6 +38,7 @@ COMMANDS:
    service     Create a service file
    configmap   Create a configmap file
    deployment  Create a deployment file
+   kustomize   Create a kustomization file
    backend     Create files for a backend service
    help, h     Shows a list of commands or help for one command
 

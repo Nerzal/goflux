@@ -108,6 +108,25 @@ func main() {
 				Action: Deployment,
 			},
 			{
+				Name:        "kustomize",
+				HelpName:    "kustomize",
+				Description: "Creates a kustomization file",
+				Usage:       "Create a kustomization file",
+				Flags: []cli.Flag{
+					cli.BashCompletionFlag,
+					cli.HelpFlag,
+					&cli.StringFlag{
+						Required: true,
+						Name:     "namespace",
+					},
+					&cli.StringFlag{
+						Required: false,
+						Name:     "path",
+					},
+				},
+				Action: Kustomize,
+			},
+			{
 				Name:        "backend",
 				HelpName:    "backend",
 				Description: "Creates folders and files for a backend service",
@@ -214,6 +233,22 @@ func ConfigMap(c *cli.Context) error {
 	exampleData["EXAMPLE_KEYCLOAK_REALM"] = "CHANGE_ME"
 
 	err := gofluxClient.CreateConfigMap(projectName, namespace, exampleData, ".")
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// Kustomize is a cli command
+func Kustomize(c *cli.Context) error {
+	namespace := c.String("namespace")
+	path := c.Path("path")
+	if path == "" {
+		path = "."
+	}
+
+	err := gofluxClient.CreateKustomization(namespace, path)
 	if err != nil {
 		return err
 	}

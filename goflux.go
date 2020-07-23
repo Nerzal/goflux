@@ -23,6 +23,7 @@ type Goflux interface {
 	CreateDeployment(component, namespace, imagePullSecret string, path ...string) error
 	CreateNameSpace(component, namespace string, path ...string) error
 	CreateService(component, namespace string, path ...string) error
+	CreateKustomization(namespace string, path ...string) error
 }
 
 type goflux struct {
@@ -143,6 +144,26 @@ func (goflux *goflux) CreateConfigMap(component, namespace string, data configma
 	}
 
 	return goflux.configmap.Create(component, namespace, basePath, data)
+}
+
+func (goflux *goflux) CreateKustomization(namespace string, path ...string) error {
+	localPath := "."
+
+	if len(path) != 0 {
+		localPath = path[0]
+	}
+
+	ressources, err := goflux.kustomize.FetchRessources(localPath)
+	if err != nil {
+		return err
+	}
+
+	patches, err := goflux.kustomize.FetchPatches(localPath)
+	if err != nil {
+		return err
+	}
+
+	return goflux.kustomize.Create(localPath, namespace, ressources, patches, nil)
 }
 
 func (goflux *goflux) createFolder(projectName string, folderName string) error {
