@@ -39,6 +39,7 @@ COMMANDS:
    configmap, c   Create a configmap file
    deployment, d  Create a deployment file
    kustomize, k   Create a kustomization file
+   hpa, h         Create a hpa file
    backend, b     Create files for a backend service
    help, h        Shows a list of commands or help for one command
 
