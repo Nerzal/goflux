@@ -25,6 +25,7 @@ USAGE:
 COMMANDS:
    init       Initialize new project
    namespace  Create a namespace file
+   service    Create a service file
    backend    Create files for a backend service
    help, h    Shows a list of commands or help for one command
 
