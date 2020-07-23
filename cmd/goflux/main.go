@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/Nerzal/goflux"
+	"github.com/Nerzal/goflux/pkg/configmap"
 	"github.com/urfave/cli/v2"
 )
 
@@ -63,6 +64,25 @@ func main() {
 					},
 				},
 				Action: Service,
+			},
+			{
+				Name:        "configmap",
+				HelpName:    "configmap",
+				Description: "Creates a configmap file",
+				Usage:       "Create a configmap file",
+				Flags: []cli.Flag{
+					cli.BashCompletionFlag,
+					cli.HelpFlag,
+					&cli.StringFlag{
+						Required: true,
+						Name:     "namespace",
+					},
+					&cli.StringFlag{
+						Required: true,
+						Name:     "component",
+					},
+				},
+				Action: ConfigMap,
 			},
 			{
 				Name:        "deployment",
@@ -177,6 +197,23 @@ func Deployment(c *cli.Context) error {
 	secret := c.String("image-secret")
 
 	err := gofluxClient.CreateDeployment(projectName, namespace, secret, ".")
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// ConfigMap is a cli command
+func ConfigMap(c *cli.Context) error {
+	projectName := c.String("component")
+	namespace := c.String("namespace")
+
+	exampleData := configmap.Data{}
+	exampleData["CHANGE_ME"] = "CHANGE_ME"
+	exampleData["EXAMPLE_KEYCLOAK_REALM"] = "CHANGE_ME"
+
+	err := gofluxClient.CreateConfigMap(projectName, namespace, exampleData, ".")
 	if err != nil {
 		return err
 	}
