@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kycnow-api
+  namespace: clarilab
+  labels:
+    app: clarilab
+    component: kycnow-api
+spec:
+  selector:
+    matchLabels:
+      app: clarilab
+      component: kycnow-api
+  template:
+    metadata:
+      labels:
+        app: clarilab
+        component: kycnow-api
+    spec:
+      containers:
+      - name: kycnow-api
+        ports:
+        - containerPort: 8080
+        livenessProbe:
+          httpGet:
+            path: live
+            port: 8086
+          initialDelaySeconds: 10
+          periodSeconds: 3
+          timeoutSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: live
+            port: 8086
+          initialDelaySeconds: 10
+          periodSeconds: 3
+          timeoutSeconds: 5
+      imagePullSecrets:
+      - name: myCoolSecret
