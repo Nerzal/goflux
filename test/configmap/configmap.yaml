@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kycnow-api
+  namespace: clarilab
+data:
+  KEYCLOAK_REALM: myKeyCloakRealm
+  SERVICE_NAME: kycnow-api
