@@ -12,6 +12,7 @@ import (
 	"github.com/Nerzal/goflux/pkg/ingress"
 	"github.com/Nerzal/goflux/pkg/kustomize"
 	"github.com/Nerzal/goflux/pkg/namespace"
+	"github.com/Nerzal/goflux/pkg/secret"
 	"github.com/Nerzal/goflux/pkg/service"
 )
 
@@ -39,6 +40,7 @@ type goflux struct {
 	hpa        hpa.Service
 	ingress    ingress.Service
 	config     *config.Config
+	secret     secret.Service
 }
 
 // New creates a new instance of Goflux
@@ -50,6 +52,7 @@ func New() Goflux {
 	configmap := configmap.NewService()
 	hpa := hpa.NewService()
 	ingress := ingress.NewService()
+	secret := secret.NewService()
 
 	myConfig, err := config.LoadConfig("./goflux.yaml")
 	if err != nil {
@@ -65,6 +68,7 @@ func New() Goflux {
 		hpa:        hpa,
 		ingress:    ingress,
 		config:     myConfig,
+		secret:     secret,
 	}
 }
 
@@ -81,13 +85,31 @@ func (goflux *goflux) Initialize(projectName string) error {
 		return err
 	}
 
+	err = goflux.createFolder(projectName+"/dev", "_secrets")
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
 	err = goflux.createFolder(projectName, "test")
 	if err != nil {
 		fmt.Println(err)
 		return err
 	}
 
+	err = goflux.createFolder(projectName+"/test", "_secrets")
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
 	err = goflux.createFolder(projectName, "prod")
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
+	err = goflux.createFolder(projectName+"/prod", "_secrets")
 	if err != nil {
 		fmt.Println(err)
 		return err
@@ -167,6 +189,8 @@ func (goflux *goflux) CreateEnv(component, namespace, env string) error {
 	if err != nil {
 		return err
 	}
+
+	goflux.secret.SealSecrets(envPath+"_secrets", "")
 
 	ressources, err := goflux.kustomize.FetchRessources(envPath)
 	if err != nil {
