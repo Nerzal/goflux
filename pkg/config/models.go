@@ -4,6 +4,7 @@ package config
 type Config struct {
 	Deployment Deployment `yaml:"deployment,omitempty"`
 	HPA        HPA        `yaml:"hpa,omitempty"`
+	Secrets    Secrets    `yaml:"secrets,omitempty"`
 }
 
 // Secrets is used to seal and find secrets

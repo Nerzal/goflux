@@ -1,0 +1,20 @@
+deployment:
+  imagePullSecret: mySecret
+  annotations:
+    fluxcd.io/automated: "true"
+    fluxcd.io/tag.foo-bar: glob:dev-*
+  ressources:
+    limits:
+      cpu: 60m
+      memory: 60Mi
+    requests:
+      cpu: 40m
+      memory: 40Mi
+hpa:
+  minReplicas: 4
+  maxReplicas: 12
+secrets:
+  secretFolderName: _secrets
+  devCertURL: foo.dev.cert
+  testCertURL: foo.test.cert
+  prodCertURL: foo.prod.cert
