@@ -114,6 +114,15 @@ func (goflux *goflux) CreateBase(component, namespace string) error {
 		return err
 	}
 
+	envvars := configmap.Data{}
+	envvars["SERVICE_NAME"] = component
+	envvars["SERVICE_VERSION"] = "V1"
+
+	err = goflux.configmap.Create(component, namespace, basePath, envvars)
+	if err != nil {
+		return err
+	}
+
 	ressources, err := goflux.kustomize.FetchRessources(basePath)
 	if err != nil {
 		return err

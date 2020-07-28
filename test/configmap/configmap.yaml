@@ -5,4 +5,4 @@ metadata:
   namespace: clarilab
 data:
   KEYCLOAK_REALM: myKeyCloakRealm
-  SERVICE_NAME: kycnow-api
+  SERVICE_NAME: kycnow-api  
