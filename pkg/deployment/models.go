@@ -16,10 +16,14 @@ type Labels struct {
 
 // Metadata is metadata
 type Metadata struct {
-	Name      string `yaml:"name,omitempty"`
-	Namespace string `yaml:"namespace,omitempty"`
-	Labels    Labels `yaml:"labels,omitempty"`
+	Name        string      `yaml:"name,omitempty"`
+	Namespace   string      `yaml:"namespace,omitempty"`
+	Labels      Labels      `yaml:"labels,omitempty"`
+	Annotations Annotations `yaml:"annotations,omitempty"`
 }
+
+// Annotations are used as annotations
+type Annotations map[string]string
 
 // MatchLabels are matchLabels
 type MatchLabels struct {
@@ -85,10 +89,35 @@ type SecurityContext struct {
 type Container struct {
 	Name            string          `yaml:"name,omitempty"`
 	Env             []Env           `yaml:"env,omitempty"`
+	Image           string          `yaml:"image,omitempty"`
+	EnvFrom         []EnvFrom       `yaml:"envFrom,omitempty"`
 	Ports           []Ports         `yaml:"ports,omitempty"`
 	LivenessProbe   Probe           `yaml:"livenessProbe,omitempty"`
 	ReadinessProbe  Probe           `yaml:"readinessProbe,omitempty"`
 	SecurityContext SecurityContext `yaml:"securityContext,omitempty"`
+	Ressources      Ressources      `yaml:"ressources,omitempty"`
+}
+
+// Ressources are used as ressources
+type Ressources struct {
+	Limits   Ressource `yaml:"limits,omitempty"`
+	Requests Ressource `yaml:"requests,omitempty"`
+}
+
+// Ressource is used inside ressources
+type Ressource struct {
+	CPU    string `yaml:"cpu,omitempty"`
+	Memory string `yaml:"memory,omitempty"`
+}
+
+// EnvFrom is used to hand in configMapRefs
+type EnvFrom struct {
+	ConfigMapRef ConfigMapRef `yaml:"configMapRef,omitempty"`
+}
+
+// ConfigMapRef is used as config map ref
+type ConfigMapRef struct {
+	Name string `yaml:"name,omitempty"`
 }
 
 // ImagePullSecrets are used as imagePullSecrets
