@@ -2,10 +2,10 @@ package goflux
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 
+	"github.com/Nerzal/goflux/pkg/config"
 	"github.com/Nerzal/goflux/pkg/configmap"
 	"github.com/Nerzal/goflux/pkg/deployment"
 	"github.com/Nerzal/goflux/pkg/hpa"
@@ -13,7 +13,6 @@ import (
 	"github.com/Nerzal/goflux/pkg/kustomize"
 	"github.com/Nerzal/goflux/pkg/namespace"
 	"github.com/Nerzal/goflux/pkg/service"
-	"gopkg.in/yaml.v2"
 )
 
 // Goflux is used to create service, ingress, namespace files etc.
@@ -38,6 +37,7 @@ type goflux struct {
 	configmap  configmap.Service
 	hpa        hpa.Service
 	ingress    ingress.Service
+	config     *config.Config
 }
 
 // New creates a new instance of Goflux
@@ -50,6 +50,11 @@ func New() Goflux {
 	hpa := hpa.NewService()
 	ingress := ingress.NewService()
 
+	myConfig, err := config.LoadConfig("./goflux.yaml")
+	if err != nil {
+		fmt.Println("no goflux.yaml config found in current directory. continue without config")
+	}
+
 	return &goflux{
 		service:    service,
 		kustomize:  kustomize,
@@ -58,6 +63,7 @@ func New() Goflux {
 		configmap:  configmap,
 		hpa:        hpa,
 		ingress:    ingress,
+		config:     myConfig,
 	}
 }
 
@@ -90,15 +96,19 @@ func (goflux *goflux) Initialize(projectName string) error {
 }
 
 func (goflux *goflux) CreateBase(component, namespace string) error {
-	serviceData := goflux.service.New(component, namespace)
-	binaryData, err := yaml.Marshal(serviceData)
+	basePath := fmt.Sprintf("./%s/base", component)
+
+	err := goflux.service.Create(component, namespace, basePath)
 	if err != nil {
 		return err
 	}
 
-	basePath := fmt.Sprintf("./%s/base", component)
+	var imagePullSecrets string
+	if goflux.config != nil {
+		imagePullSecrets = goflux.config.Deployment.ImagePullSecret
+	}
 
-	err = ioutil.WriteFile(fmt.Sprintf("%s/service.yaml", basePath), binaryData, 0600)
+	err = goflux.deployment.Create(component, namespace, imagePullSecrets, basePath)
 	if err != nil {
 		return err
 	}

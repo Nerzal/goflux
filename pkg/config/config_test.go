@@ -47,8 +47,12 @@ func TestConfig_Load(t *testing.T) {
 
 	ioutil.WriteFile("../../test/config/goflux.yaml", defaultConfigData, 0644)
 
-	_, err = config.LoadConfig("../../test/config/goflux.yaml")
+	myConfig, err := config.LoadConfig("../../test/config/goflux.yaml")
 	if err != nil {
 		t.Error(err)
+	}
+
+	if myConfig == nil {
+		t.Error("failed to read config")
 	}
 }
