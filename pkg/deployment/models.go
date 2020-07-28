@@ -87,15 +87,15 @@ type SecurityContext struct {
 
 // Container is used for containers section
 type Container struct {
-	Name            string          `yaml:"name,omitempty"`
-	Env             []Env           `yaml:"env,omitempty"`
-	Image           string          `yaml:"image,omitempty"`
-	EnvFrom         []EnvFrom       `yaml:"envFrom,omitempty"`
-	Ports           []Ports         `yaml:"ports,omitempty"`
-	LivenessProbe   Probe           `yaml:"livenessProbe,omitempty"`
-	ReadinessProbe  Probe           `yaml:"readinessProbe,omitempty"`
-	SecurityContext SecurityContext `yaml:"securityContext,omitempty"`
-	Ressources      Ressources      `yaml:"ressources,omitempty"`
+	Name            string           `yaml:"name,omitempty"`
+	Env             []Env            `yaml:"env,omitempty"`
+	Image           string           `yaml:"image,omitempty"`
+	EnvFrom         []EnvFrom        `yaml:"envFrom,omitempty"`
+	Ports           []Ports          `yaml:"ports,omitempty"`
+	LivenessProbe   Probe            `yaml:"livenessProbe,omitempty"`
+	ReadinessProbe  Probe            `yaml:"readinessProbe,omitempty"`
+	SecurityContext *SecurityContext `yaml:"securityContext,omitempty"`
+	Ressources      *Ressources      `yaml:"ressources,omitempty"`
 }
 
 // Ressources are used as ressources

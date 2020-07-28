@@ -281,6 +281,21 @@ func Backend(c *cli.Context) error {
 		return err
 	}
 
+	err = gofluxClient.CreateEnv(projectName, namespace, "dev")
+	if err != nil {
+		return err
+	}
+
+	err = gofluxClient.CreateEnv(projectName, namespace, "test")
+	if err != nil {
+		return err
+	}
+
+	err = gofluxClient.CreateEnv(projectName, namespace, "prod")
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 

@@ -19,6 +19,7 @@ import (
 type Goflux interface {
 	Initialize(component string) error
 	CreateBase(component, namespace string) error
+	CreateEnv(component, namespace, env string) error
 
 	CreateConfigMap(component, namespace string, data configmap.Data, path ...string) error
 	CreateDeployment(component, namespace, imagePullSecret string, path ...string) error
@@ -119,6 +120,60 @@ func (goflux *goflux) CreateBase(component, namespace string) error {
 	}
 
 	err = goflux.kustomize.Create(basePath, "", ressources, nil, nil)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (goflux *goflux) CreateEnv(component, namespace, env string) error {
+	basePath := fmt.Sprintf("../%s/base", component)
+	envPath := fmt.Sprintf("./%s/%s", component, env)
+
+	var imagePullSecrets string
+	if goflux.config != nil {
+		imagePullSecrets = goflux.config.Deployment.ImagePullSecret
+	}
+
+	err := goflux.deployment.CreatePatch(component, namespace, imagePullSecrets, envPath, goflux.config)
+	if err != nil {
+		return err
+	}
+
+	minReplicas := 2
+	maxReplicas := 4
+
+	if goflux.config != nil {
+		minReplicas = goflux.config.HPA.MinReplicas
+		maxReplicas = goflux.config.HPA.MaxReplicas
+	}
+
+	err = goflux.hpa.Create(component, namespace, minReplicas, maxReplicas, envPath)
+	if err != nil {
+		return err
+	}
+
+	err = goflux.ingress.Create(component, namespace, "foo.dev.domain.de", "*.dev.domain.de", "star-domain-de-crt", "/api", true, envPath)
+	if err != nil {
+		return err
+	}
+
+	ressources, err := goflux.kustomize.FetchRessources(envPath)
+	if err != nil {
+		return err
+	}
+
+	patches, err := goflux.kustomize.FetchPatches(envPath)
+	if err != nil {
+		return err
+	}
+
+	bases := []string{
+		basePath,
+	}
+
+	err = goflux.kustomize.Create(envPath, namespace, ressources, patches, bases)
 	if err != nil {
 		return err
 	}

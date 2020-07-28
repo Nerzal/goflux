@@ -35,5 +35,6 @@ spec:
           initialDelaySeconds: 10
           periodSeconds: 3
           timeoutSeconds: 5
+        ressources: {}
       imagePullSecrets:
       - name: myCoolSecret
