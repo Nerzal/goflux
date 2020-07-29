@@ -1,4 +1,5 @@
 # goflux
+
 [![codebeat badge](https://codebeat.co/badges/4ba2c5c6-da53-40c9-b1d3-506e2b5d852b)](https://codebeat.co/projects/github-com-nerzal-goflux-master)
 [![Go Report Card](https://goreportcard.com/badge/github.com/Nerzal/goflux)](https://goreportcard.com/report/github.com/Nerzal/goflux)
 [![Go Doc](https://godoc.org/github.com/Nerzal/goflux?status.svg)](https://godoc.org/github.com/Nerzal/goflux)
@@ -7,25 +8,21 @@
 [![codecov](https://codecov.io/gh/Nerzal/goflux/branch/master/graph/badge.svg)](https://codecov.io/gh/Nerzal/goflux)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FNerzal%2Fgoflux.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FNerzal%2Fgoflux?ref=badge_shield)
 
-
 ## Note
-Nothing is final right now and the API aswell as the models might change until V1.0 release
 
-The created kubernetes files are currently narrowed down to my personal usecase. I'm very open for Changerequests to make this cli useful for a broader audience. 
+Nothing is final right now and the API as well as the models might change until V1.0 release
+
+The created kubernetes files are currently narrowed down to my personal use case. I'm very open for Change requests to make this cli useful for a broader audience.
 
 ## Installation
-Until we implemented AutoReleases for all platforms using github actions, you'll need to have go installed.
 
-### Using go get
-> go get -u -v github.com/Nerzal/goflux/cmd/goflux
-
-### After cloning locally
-cd into the project folder and do
-> make 
+```sh
+go install github.com/Nerzal/goflux
+```
 
 ## Usage Example
 
-```sh
+```txt
 NAME:
    goflux - Used to automatically generate kubernetes files
 
@@ -53,17 +50,19 @@ To initialize a new project do
 
 This will generate a basic folder structure.
 
-To create all files needed for a backend deployment do 
+To create all files needed for a backend deployment do
 > goflux backend --component myService --namespace myNamespace
 
 ### The following commands work without goflux init
 
-**Create a Service File**
+#### Create a Service File
+
 > goflux service --component myService --namespace myNamespace
 
+#### Create a Namespace File
 
-**Create a Namespace File**
 > goflux namespace --namespace myNamespace
 
-**Create a Deployment File**
+#### Create a Deployment File
+
 > goflux deployment --component myService --namespace myNamespace --image-secret myImagePullSecret
