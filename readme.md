@@ -16,8 +16,12 @@ The created kubernetes files are currently narrowed down to my personal use case
 
 ## Installation
 
+Until we implemented AutoReleases for all platforms using github actions, you'll need to have go installed.
+
 ```sh
-go install github.com/Nerzal/goflux
+go get -u -v github.com/Nerzal/goflux/cmd/goflux
+# cd into the project folder and do
+make
 ```
 
 ## Usage Example
