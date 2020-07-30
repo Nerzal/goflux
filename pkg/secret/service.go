@@ -48,7 +48,7 @@ func (service *service) SealSecrets(path, certURL string) error {
 
 		err = service.SealSecret(filePath, certURL)
 		if err != nil {
-			return errors.Wrap(err, fmt.Sprintf("could not seal secret in path: "))
+			return errors.Wrap(err, fmt.Sprintf("could not seal secret in path: %s", filePath))
 		}
 	}
 
