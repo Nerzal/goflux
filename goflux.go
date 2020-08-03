@@ -190,7 +190,10 @@ func (goflux *goflux) CreateEnv(component, namespace, env string) error {
 		return err
 	}
 
-	goflux.secret.SealSecrets(envPath+"_secrets", "")
+	err = goflux.secret.SealSecrets(envPath+"_secrets", "")
+	if err != nil {
+		return err
+	}
 
 	ressources, err := goflux.kustomize.FetchRessources(envPath)
 	if err != nil {
